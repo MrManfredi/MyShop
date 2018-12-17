@@ -26,10 +26,6 @@ public class Main extends Application {
             e.printStackTrace();
         }
 
-
-
-        //Scene loginScene = new Scene(FXMLLoader.load(InterfaceClass.class.getResource("guiLogin.fxml")));
-        //primaryStage.getScene(new Scene(new Group()));
     }
 
 //    public static void main(String[] args) {

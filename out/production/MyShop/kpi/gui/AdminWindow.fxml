@@ -5,18 +5,13 @@
 <?import java.lang.*?>
 <?import javafx.scene.control.*?>
 
-<VBox maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
+<VBox maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="kpi.gui.AdminWindowController">
    <children>
-      <MenuBar>
+      <MenuBar fx:id="menuBar">
         <menus>
-          <Menu mnemonicParsing="false" text="File">
+          <Menu mnemonicParsing="false" text="User">
             <items>
-              <MenuItem mnemonicParsing="false" text="Close" />
-            </items>
-          </Menu>
-          <Menu mnemonicParsing="false" text="Edit">
-            <items>
-              <MenuItem mnemonicParsing="false" text="Delete" />
+              <MenuItem fx:id="logOutButton" mnemonicParsing="false" text="Log Out" />
             </items>
           </Menu>
           <Menu mnemonicParsing="false" text="Help">
@@ -26,7 +21,7 @@
           </Menu>
         </menus>
       </MenuBar>
-      <GridPane gridLinesVisible="true" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" VBox.vgrow="ALWAYS">
+      <GridPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" style="-fx-background-color: #e8ba53;" VBox.vgrow="ALWAYS">
         <columnConstraints>
           <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
           <ColumnConstraints hgrow="SOMETIMES" maxWidth="-Infinity" minWidth="-Infinity" prefWidth="700.0" />
@@ -38,28 +33,31 @@
           <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
         </rowConstraints>
          <children>
-            <TabPane style="-fx-background-color: #fff5a5;" GridPane.columnIndex="1" GridPane.rowIndex="1">
+            <TabPane fx:id="tabPane" style="-fx-background-color: #fff5a5; -fx-border-width: 3; -fx-border-color: #760007;" GridPane.columnIndex="1" GridPane.rowIndex="1">
                <tabs>
-                  <Tab closable="false" text="Clients">
+                  <Tab fx:id="clients" closable="false" text="Clients">
                      <content>
-                        <TabPane prefHeight="200.0" prefWidth="200.0" tabClosingPolicy="UNAVAILABLE">
+                        <TabPane prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: #fff5a5;" tabClosingPolicy="UNAVAILABLE">
                           <tabs>
-                            <Tab text="Untitled Tab 1">
+                            <Tab closable="false" text="Table">
                                  <content>
-                                    <GridPane>
-                                      <columnConstraints>
-                                        <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-                                        <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-                                      </columnConstraints>
-                                      <rowConstraints>
-                                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                                      </rowConstraints>
-                                    </GridPane>
+                                    <HBox>
+                                       <children>
+                                          <TableView maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="190.0" prefWidth="694.0" HBox.hgrow="ALWAYS">
+                                            <columns>
+                                              <TableColumn prefWidth="75.0" text="C1" />
+                                              <TableColumn prefWidth="75.0" text="C2" />
+                                                <TableColumn prefWidth="75.0" text="Column X" />
+                                            </columns>
+                                             <columnResizePolicy>
+                                                <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
+                                             </columnResizePolicy>
+                                          </TableView>
+                                       </children>
+                                    </HBox>
                                  </content>
                             </Tab>
-                            <Tab text="Untitled Tab 2">
+                            <Tab closable="false" text="Add Client">
                               <content>
                                 <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
                               </content>
@@ -68,12 +66,51 @@
                         </TabPane>
                      </content>
                   </Tab>
-                  <Tab closable="false" text="Festivals" />
-                  <Tab closable="false" text="Bands" />
-                  <Tab closable="false" text="Genres" />
-                  <Tab closable="false" text="Tickets" />
-                  <Tab closable="false" text="Places" />
-                  <Tab closable="false" text="Bands at Festivals" />
+                  <Tab fx:id="festivals" closable="false" text="Festivals" />
+                  <Tab fx:id="bands" closable="false" text="Bands" />
+                  <Tab fx:id="genres" closable="false" text="Genres">
+                     <content>
+                        <TabPane prefHeight="200.0" prefWidth="200.0" tabClosingPolicy="UNAVAILABLE">
+                          <tabs>
+                            <Tab text="Table">
+                              <content>
+                                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                                       <children>
+                                          <TableView fx:id="genresTable" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                            <columns>
+                                              <TableColumn prefWidth="-1.0" text="id" />
+                                              <TableColumn prefWidth="-1.0" text="name" />
+                                                <TableColumn prefWidth="-1.0" text="info" />
+                                            </columns>
+                                             <columnResizePolicy>
+                                                <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
+                                             </columnResizePolicy>
+                                          </TableView>
+                                       </children>
+                                    </AnchorPane>
+                              </content>
+                            </Tab>
+                            <Tab text="Add Genre">
+                              <content>
+                                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
+                              </content>
+                            </Tab>
+                              <Tab text="Update Genre">
+                                <content>
+                                  <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
+                                </content>
+                              </Tab>
+                              <Tab text="Delete Genre">
+                                <content>
+                                  <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
+                                </content>
+                              </Tab>
+                          </tabs>
+                        </TabPane>
+                     </content></Tab>
+                  <Tab fx:id="tickets" closable="false" text="Tickets" />
+                  <Tab fx:id="places" closable="false" text="Places" />
+                  <Tab fx:id="bands_festivals" closable="false" text="Bands at Festivals" />
                </tabs>
             </TabPane>
          </children>
