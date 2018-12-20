@@ -43,11 +43,15 @@
                                  <content>
                                     <HBox>
                                        <children>
-                                          <TableView maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="190.0" prefWidth="694.0" HBox.hgrow="ALWAYS">
+                                          <TableView fx:id="clientsTable" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="190.0" prefWidth="694.0" HBox.hgrow="ALWAYS">
                                             <columns>
-                                              <TableColumn prefWidth="75.0" text="C1" />
-                                              <TableColumn prefWidth="75.0" text="C2" />
-                                                <TableColumn prefWidth="75.0" text="Column X" />
+                                              <TableColumn fx:id="client_id" prefWidth="10.0" text="id" />
+                                              <TableColumn fx:id="client_name" prefWidth="75.0" text="name" />
+                                                <TableColumn fx:id="client_surname" prefWidth="75.0" text="surname" />
+                                                <TableColumn fx:id="client_lastname" prefWidth="75.0" text="lastname" />
+                                                <TableColumn fx:id="client_age" prefWidth="10.0" text="age" />
+                                                <TableColumn fx:id="client_phone" prefWidth="75.0" text="phone" />
+                                                <TableColumn fx:id="client_address" prefWidth="75.0" text="address" />
                                             </columns>
                                              <columnResizePolicy>
                                                 <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
@@ -57,60 +61,193 @@
                                     </HBox>
                                  </content>
                             </Tab>
-                            <Tab closable="false" text="Add Client">
-                              <content>
-                                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
-                              </content>
-                            </Tab>
+                            <Tab closable="false" text="Insert Client" />
+                              <Tab text="Update Client" />
+                              <Tab closable="false" text="Delete Client" />
                           </tabs>
                         </TabPane>
                      </content>
                   </Tab>
-                  <Tab fx:id="festivals" closable="false" text="Festivals" />
-                  <Tab fx:id="bands" closable="false" text="Bands" />
+                  <Tab fx:id="festivals" closable="false" text="Festivals">
+                     <content>
+                        <TabPane prefHeight="200.0" prefWidth="200.0" tabClosingPolicy="UNAVAILABLE">
+                          <tabs>
+                              <Tab closable="false" text="Table">
+                                 <content>
+                                    <HBox>
+                                       <children>
+                                          <TableView fx:id="festivalsTable" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="190.0" prefWidth="694.0" HBox.hgrow="ALWAYS">
+                                             <columnResizePolicy>
+                                                <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
+                                             </columnResizePolicy>
+                                             <columns>
+                                                <TableColumn fx:id="festival_id" prefWidth="30.0" text="id" />
+                                                <TableColumn fx:id="festival_name" prefWidth="100.0" text="name" />
+                                                <TableColumn fx:id="festival_place_id" prefWidth="40.0" text="place_id" />
+                                                <TableColumn fx:id="festival_date" prefWidth="70.0" text="date" />
+                                                <TableColumn fx:id="festival_price" prefWidth="40.0" text="price" />
+                                                <TableColumn fx:id="festival_all_tickets" prefWidth="50.0" text="all_tickets" />
+                                                <TableColumn fx:id="festival_free_tickets" prefWidth="50.0" text="free_tickets" />
+                                                <TableColumn fx:id="festival_info" prefWidth="100.0" text="info" />
+                                             </columns>
+                                          </TableView>
+                                       </children>
+                                    </HBox>
+                                 </content>
+                              </Tab>
+                            <Tab text="Insert Festival" />
+                              <Tab text="Update Festival" />
+                            <Tab text="Delete Festival" />
+                          </tabs>
+                        </TabPane>
+                     </content></Tab>
+                  <Tab fx:id="bands" closable="false" text="Bands">
+                     <content>
+                        <TabPane prefHeight="200.0" prefWidth="200.0" tabClosingPolicy="UNAVAILABLE">
+                          <tabs>
+                              <Tab closable="false" text="Table">
+                                 <content>
+                                    <HBox>
+                                       <children>
+                                          <TableView fx:id="bandsTable" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="190.0" prefWidth="694.0" HBox.hgrow="ALWAYS">
+                                             <columnResizePolicy>
+                                                <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
+                                             </columnResizePolicy>
+                                             <columns>
+                                                <TableColumn fx:id="band_id" prefWidth="10.0" text="id" />
+                                                <TableColumn fx:id="band_name" prefWidth="150.0" text="name" />
+                                                <TableColumn fx:id="band_genre_id" prefWidth="10.0" text="genre_id" />
+                                                <TableColumn fx:id="band_info" minWidth="50.0" prefWidth="200.0" text="info" />
+                                             </columns>
+                                          </TableView>
+                                       </children>
+                                    </HBox>
+                                 </content>
+                              </Tab>
+                            <Tab text="Insert Band" />
+                              <Tab text="Update Band" />
+                            <Tab text="Delete Band" />
+                          </tabs>
+                        </TabPane>
+                     </content></Tab>
                   <Tab fx:id="genres" closable="false" text="Genres">
                      <content>
                         <TabPane prefHeight="200.0" prefWidth="200.0" tabClosingPolicy="UNAVAILABLE">
                           <tabs>
-                            <Tab text="Table">
+                            <Tab fx:id="genres_table" text="Table">
                               <content>
-                                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                                    <GridPane>
+                                       <columnConstraints>
+                                          <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" />
+                                       </columnConstraints>
+                                       <rowConstraints>
+                                          <RowConstraints minHeight="10.0" vgrow="SOMETIMES" />
+                                       </rowConstraints>
                                        <children>
-                                          <TableView fx:id="genresTable" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                          <TableView fx:id="genresTable" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" GridPane.hgrow="ALWAYS">
                                             <columns>
-                                              <TableColumn prefWidth="-1.0" text="id" />
-                                              <TableColumn prefWidth="-1.0" text="name" />
-                                                <TableColumn prefWidth="-1.0" text="info" />
+                                              <TableColumn fx:id="genre_id" minWidth="30.0" prefWidth="57.0" text="id" />
+                                              <TableColumn fx:id="genre_name" minWidth="50.0" prefWidth="208.0" text="name" />
+                                                <TableColumn fx:id="genre_info" minWidth="300.0" prefWidth="235.0" text="info" />
                                             </columns>
                                              <columnResizePolicy>
                                                 <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
                                              </columnResizePolicy>
                                           </TableView>
                                        </children>
-                                    </AnchorPane>
+                                    </GridPane>
                               </content>
                             </Tab>
-                            <Tab text="Add Genre">
-                              <content>
-                                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
-                              </content>
-                            </Tab>
-                              <Tab text="Update Genre">
-                                <content>
-                                  <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
-                                </content>
-                              </Tab>
-                              <Tab text="Delete Genre">
-                                <content>
-                                  <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
-                                </content>
-                              </Tab>
+                            <Tab text="Insert Genre" />
+                              <Tab text="Delete Genre" />
+                              <Tab text="Update Genre" />
                           </tabs>
                         </TabPane>
                      </content></Tab>
-                  <Tab fx:id="tickets" closable="false" text="Tickets" />
-                  <Tab fx:id="places" closable="false" text="Places" />
-                  <Tab fx:id="bands_festivals" closable="false" text="Bands at Festivals" />
+                  <Tab fx:id="tickets" closable="false" text="Tickets">
+                     <content>
+                        <TabPane prefHeight="200.0" prefWidth="200.0" tabClosingPolicy="UNAVAILABLE">
+                          <tabs>
+                              <Tab closable="false" text="Table">
+                                 <content>
+                                    <HBox>
+                                       <children>
+                                          <TableView fx:id="ticketsTable" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="190.0" prefWidth="694.0" HBox.hgrow="ALWAYS">
+                                             <columnResizePolicy>
+                                                <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
+                                             </columnResizePolicy>
+                                             <columns>
+                                                <TableColumn fx:id="ticket_id" prefWidth="75.0" text="id" />
+                                                <TableColumn fx:id="ticket_client_id" prefWidth="75.0" text="client_id" />
+                                                <TableColumn fx:id="ticket_festival_id" prefWidth="75.0" text="festival_id" />
+                                             </columns>
+                                          </TableView>
+                                       </children>
+                                    </HBox>
+                                 </content>
+                              </Tab>
+                            <Tab text="Insert Ticket" />
+                              <Tab text="Update Ticket" />
+                            <Tab text="Delete Ticket" />
+                          </tabs>
+                        </TabPane>
+                     </content></Tab>
+                  <Tab fx:id="places" closable="false" text="Places">
+                     <content>
+                        <TabPane prefHeight="200.0" prefWidth="200.0" tabClosingPolicy="UNAVAILABLE">
+                          <tabs>
+                              <Tab closable="false" text="Table">
+                                 <content>
+                                    <HBox>
+                                       <children>
+                                          <TableView fx:id="placesTable" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="190.0" prefWidth="694.0" HBox.hgrow="ALWAYS">
+                                             <columnResizePolicy>
+                                                <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
+                                             </columnResizePolicy>
+                                             <columns>
+                                                <TableColumn fx:id="place_id" prefWidth="10.0" text="id" />
+                                                <TableColumn fx:id="place_name" prefWidth="150.0" text="name" />
+                                                <TableColumn fx:id="place_address" prefWidth="150.0" text="address" />
+                                                <TableColumn fx:id="place_info" prefWidth="150.0" text="info" />
+                                             </columns>
+                                          </TableView>
+                                       </children>
+                                    </HBox>
+                                 </content>
+                              </Tab>
+                            <Tab text="Insert Place" />
+                              <Tab text="Update Place" />
+                            <Tab text="Delete Place" />
+                          </tabs>
+                        </TabPane>
+                     </content></Tab>
+                  <Tab fx:id="BAF" closable="false" text="Bands at Festivals">
+                     <content>
+                        <TabPane prefHeight="200.0" prefWidth="200.0" tabClosingPolicy="UNAVAILABLE">
+                          <tabs>
+                              <Tab closable="false" text="Table">
+                                 <content>
+                                    <HBox>
+                                       <children>
+                                          <TableView fx:id="BAFTable" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="190.0" prefWidth="694.0" HBox.hgrow="ALWAYS">
+                                             <columnResizePolicy>
+                                                <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
+                                             </columnResizePolicy>
+                                             <columns>
+                                                <TableColumn fx:id="BAF_band_id" prefWidth="75.0" text="band_id" />
+                                                <TableColumn fx:id="BAF_festival_id" prefWidth="75.0" text="festival_id" />
+                                             </columns>
+                                          </TableView>
+                                       </children>
+                                    </HBox>
+                                 </content>
+                              </Tab>
+                            <Tab text="Insert Record" />
+                              <Tab text="Update Record" />
+                            <Tab text="Delete Record" />
+                          </tabs>
+                        </TabPane>
+                     </content></Tab>
                </tabs>
             </TabPane>
          </children>

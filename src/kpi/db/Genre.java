@@ -1,18 +1,23 @@
 package kpi.db;
 
+import javafx.beans.property.IntegerProperty;
+import javafx.beans.property.SimpleIntegerProperty;
+import javafx.beans.property.SimpleStringProperty;
+import javafx.beans.property.StringProperty;
+
 import java.util.ArrayList;
 import java.util.List;
 
 public class Genre {
     private static List<Genre> genresList = new ArrayList<Genre>();
-    private int id;
-    private String name;
-    private String info;
+    private SimpleIntegerProperty id;
+    private SimpleStringProperty name;
+    private SimpleStringProperty info;
 
     public Genre(int id, String name, String info) {
-        this.id = id;
-        this.name = name;
-        this.info = info;
+        this.id = new SimpleIntegerProperty(id);
+        this.name = new SimpleStringProperty(name);
+        this.info = new SimpleStringProperty(info);
     }
 
     public static List<Genre> getGenresList() {
@@ -24,26 +29,26 @@ public class Genre {
     }
 
     public int getId() {
-        return id;
+        return id.getValue();
     }
 
     public void setId(int id) {
-        this.id = id;
+        this.id.setValue(id);
     }
 
     public String getName() {
-        return name;
+        return name.getValue();
     }
 
     public void setName(String name) {
-        this.name = name;
+        this.name.setValue(name);
     }
 
     public String getInfo() {
-        return info;
+        return info.getValue();
     }
 
     public void setInfo(String info) {
-        this.info = info;
+        this.info.setValue(info);
     }
 }

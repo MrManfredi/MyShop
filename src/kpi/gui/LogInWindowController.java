@@ -8,6 +8,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
+import kpi.db.ConnectionToDB;
 import kpi.db.User;
 
 import java.sql.*;
@@ -30,28 +31,16 @@ public class LogInWindowController extends Controller{
     @FXML
     void initialize() {
        button.setOnMouseClicked(event -> {
-
-           try (Connection connection = DriverManager.getConnection(User.getUser().getUrl(), loginField.getText(), passwordField.getText());
-                Statement statement = connection.createStatement())
+           if (ConnectionToDB.setConnection(loginField.getText(), passwordField.getText()))
            {
-               User.getUser().setLogin(loginField.getText());
-               User.getUser().setPassword(passwordField.getText());
                Stage currentStage = (Stage) button.getScene().getWindow();
                currentStage.close();
                openNewScene("AdminWindow.fxml");
            }
-           catch (SQLNonTransientConnectionException ex)
+           else
            {
                info.setText("Info: Login or Password uncorrected!");
            }
-           catch (SQLException ex)
-           {
-               info.setText("Info: Input login and password!");
-               //ex.printStackTrace();
-           }
-
-
-
        });
     }
 }
