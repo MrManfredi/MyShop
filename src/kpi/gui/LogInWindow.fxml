@@ -6,7 +6,7 @@
 <?import java.lang.*?>
 <?import javafx.scene.layout.*?>
 
-<GridPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="700.0" style="-fx-background-color: #e8ba53;" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="kpi.gui.LogInWindowController">
+<GridPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="700.0" style="-fx-background-color: white;" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="kpi.gui.LogInWindowController">
   <columnConstraints>
       <ColumnConstraints hgrow="SOMETIMES" maxWidth="1.7976931348623157E308" minWidth="0.0" prefWidth="100.0" />
     <ColumnConstraints halignment="CENTER" hgrow="ALWAYS" maxWidth="-Infinity" minWidth="500.0" />
@@ -18,7 +18,7 @@
     <RowConstraints maxHeight="1.7976931348623157E308" minHeight="0.0" vgrow="SOMETIMES" />
   </rowConstraints>
    <children>
-      <VBox alignment="CENTER" spacing="10.0" style="-fx-background-color: #fff5a5; -fx-border-color: #760007; -fx-border-width: 3;" GridPane.columnIndex="1" GridPane.rowIndex="1">
+      <VBox alignment="CENTER" spacing="10.0" style="-fx-background-color: white; -fx-border-color: #760007; -fx-border-width: 3;" GridPane.columnIndex="1" GridPane.rowIndex="1">
          <children>
             <Label alignment="CENTER" maxHeight="-Infinity" maxWidth="1.7976931348623157E308" prefHeight="50.0" prefWidth="500.0" text="Music is my way©" textAlignment="CENTER" textFill="#760007">
                <font>

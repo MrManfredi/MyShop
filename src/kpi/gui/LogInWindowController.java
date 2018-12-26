@@ -11,6 +11,7 @@ import javafx.stage.Stage;
 import kpi.db.ConnectionToDB;
 import kpi.db.User;
 
+import javax.swing.*;
 import java.sql.*;
 
 public class LogInWindowController extends Controller{
@@ -39,7 +40,7 @@ public class LogInWindowController extends Controller{
            }
            else
            {
-               info.setText("Info: Login or Password uncorrected!");
+               JOptionPane.showMessageDialog(null, "Info: Login or Password uncorrected!");
            }
        });
     }

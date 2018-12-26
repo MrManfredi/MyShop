@@ -9,16 +9,14 @@ public class Client {
     private String name;
     private String surname;
     private String lastname;
-    private int age;
     private String phone;
     private String address;
 
-    public Client(int id, String name, String surname, String lastname, int age, String phone, String address) {
+    public Client(int id, String name, String surname, String lastname, String phone, String address) {
         this.id = id;
         this.name = name;
         this.surname = surname;
         this.lastname = lastname;
-        this.age = age;
         this.phone = phone;
         this.address = address;
     }
@@ -61,14 +59,6 @@ public class Client {
 
     public void setLastname(String lastname) {
         this.lastname = lastname;
-    }
-
-    public int getAge() {
-        return age;
-    }
-
-    public void setAge(int age) {
-        this.age = age;
     }
 
     public String getPhone() {

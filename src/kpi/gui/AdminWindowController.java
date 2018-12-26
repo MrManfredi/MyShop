@@ -6,10 +6,12 @@ import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
 import kpi.db.*;
 
 import javax.swing.*;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
@@ -46,11 +48,46 @@ public class AdminWindowController extends Controller {
     @FXML
     private TableColumn<Client, String> client_lastname;
     @FXML
-    private TableColumn<Client, Integer> client_age;
-    @FXML
     private TableColumn<Client, String> client_phone;
     @FXML
     private TableColumn<Client, String> client_address;
+
+//    insert
+    @FXML
+    private TextField client_insert_name;
+    @FXML
+    private TextField client_insert_surname;
+    @FXML
+    private TextField client_insert_lastname;
+    @FXML
+    private TextField client_insert_phone;
+    @FXML
+    private TextField client_insert_address;
+    @FXML
+    private Button client_insert_button;
+
+//    update
+    @FXML
+    private GridPane client_update_fields;
+    @FXML
+    private TextField client_update_id_field;
+    @FXML
+    private Button client_update_search_button;
+    @FXML
+    private TextField client_update_name_field;
+    @FXML
+    private TextField client_update_surname_field;
+    @FXML
+    private TextField client_update_lastname_field;
+    @FXML
+    private TextField client_update_phone_field;
+    @FXML
+    private TextField client_update_address_field;
+    @FXML
+    private Button client_update_update_button;
+    @FXML
+    private Button client_update_delete_button;
+
 //    festivals
     @FXML
     private Tab festivals;
@@ -121,36 +158,129 @@ public class AdminWindowController extends Controller {
 
     @FXML
     void initialize() {
+        if  (!User.getUser().getLogin().equals("root"))
+        {
+            festivals.setDisable(true);
+            bands.setDisable(true);
+            places.setDisable(true);
+            genres.setDisable(true);
+            BAF.setDisable(true);
+        }
 
-        clients.setOnSelectionChanged(event -> {
-            try {
-                ResultSet resultSet = ConnectionToDB.getStatement().executeQuery("select id, name, surname, lastname, age, phone, address from clients");
-                Client.getClientsList().clear();
-                while (resultSet.next()) {
-                    Client.addClient(new Client(
-                            resultSet.getInt("id"),
-                            resultSet.getString("name"),
-                            resultSet.getString("surname"),
-                            resultSet.getString("lastname"),
-                            resultSet.getInt("age"),
-                            resultSet.getString("phone"),
-                            resultSet.getString("address")));
+        updateClientsTable();
+
+        client_insert_button.setOnMouseClicked(event -> {
+            if (client_insert_name.getText().isEmpty() || client_insert_surname.getText().isEmpty() || client_insert_phone.getText().isEmpty())
+            {
+                JOptionPane.showMessageDialog(null, "Fill in all required fields!");
+            }
+            else {
+                try {
+                    PreparedStatement preparedStatement = ConnectionToDB.getConnection().prepareStatement(
+                            "INSERT INTO clients (name, surname, lastname, phone, address) VALUES (?, ?, ?, ?, ?)");
+                    preparedStatement.setString(1, client_insert_name.getText());
+                    preparedStatement.setString(2, client_insert_surname.getText());
+                    preparedStatement.setString(3, client_insert_lastname.getText());
+                    preparedStatement.setString(4, client_insert_phone.getText());
+                    preparedStatement.setString(5, client_insert_address.getText());
+                    preparedStatement.executeUpdate();
+                    client_insert_name.setText("");
+                    client_insert_surname.setText("");
+                    client_insert_lastname.setText("");
+                    client_insert_phone.setText("");
+                    client_insert_address.setText("");
+                    updateClientsTable();
+                    JOptionPane.showMessageDialog(null, "Client was added successful.");
+                } catch (SQLException exc) {
+                    exc.printStackTrace();
+                    JOptionPane.showMessageDialog(null, "Record where phone = " + client_insert_phone.getText() + " exactly exist!");
                 }
-                ObservableList<Client> clients = FXCollections.observableArrayList(Client.getClientsList());
-                client_id.setCellValueFactory(new PropertyValueFactory<>("id"));
-                client_name.setCellValueFactory(new PropertyValueFactory<>("name"));
-                client_surname.setCellValueFactory(new PropertyValueFactory<>("surname"));
-                client_lastname.setCellValueFactory(new PropertyValueFactory<>("lastname"));
-                client_age.setCellValueFactory(new PropertyValueFactory<>("age"));
-                client_phone.setCellValueFactory(new PropertyValueFactory<>("phone"));
-                client_address.setCellValueFactory(new PropertyValueFactory<>("address"));
-                clientsTable.setItems(clients);
+            }
+        });
 
+        client_update_search_button.setOnMouseClicked(event -> {
+            try {
+                Integer.parseInt(client_update_id_field.getText());
+                PreparedStatement preparedStatement = ConnectionToDB.getConnection().prepareStatement(
+                        "select id, name, surname, lastname, phone, address from clients WHERE id = ?");
+                preparedStatement.setString(1, client_update_id_field.getText());
+                ResultSet resultSet = preparedStatement.executeQuery();
+                resultSet.next();
+                client_update_name_field.setText(resultSet.getString("name"));
+                client_update_surname_field.setText(resultSet.getString("surname"));
+                client_update_lastname_field.setText(resultSet.getString("lastname"));
+                client_update_phone_field.setText(resultSet.getString("phone"));
+                client_update_address_field.setText(resultSet.getString("address"));
+                client_update_fields.setDisable(false);
+                client_update_update_button.setDisable(false);
+                client_update_delete_button.setDisable(false);
             }
             catch (SQLException e)
             {
-                e.printStackTrace();
-                JOptionPane.showMessageDialog(null, "Can't execute query to DB!");
+                // e.printStackTrace();
+                JOptionPane.showMessageDialog(null, "Record where id = " + client_update_id_field.getText() + " is not found!");
+                cleanAndDisableClientUpdateFields();
+            }
+            catch (Exception parseException)
+            {
+                // parseException.printStackTrace();
+                JOptionPane.showMessageDialog(null,
+                        "Number expected in 'ID' field but '" + (client_update_id_field.getText().isEmpty() ? "nothing" : client_update_id_field.getText()) + "' was founded!");
+                client_update_name_field.setText("");
+                client_update_surname_field.setText("");
+                client_update_lastname_field.setText("");
+                client_update_phone_field.setText("");
+                client_update_address_field.setText("");
+                client_update_fields.setDisable(true);
+                client_update_update_button.setDisable(true);
+            }
+        });
+
+        client_update_update_button.setOnMouseClicked(event -> {
+            if (client_update_name_field.getText().isEmpty() || client_update_surname_field.getText().isEmpty() || client_update_phone_field.getText().isEmpty())
+            {
+                JOptionPane.showMessageDialog(null, "Fill in all required fields!");
+            }
+            else{
+                try {
+                    PreparedStatement preparedStatement = ConnectionToDB.getConnection().prepareStatement(
+                            "UPDATE clients SET name = ?, surname = ?, lastname = ?, phone = ?, address = ? WHERE id = ?");
+                    preparedStatement.setString(1, client_update_name_field.getText());
+                    preparedStatement.setString(2, client_update_surname_field.getText());
+                    preparedStatement.setString(3, client_update_lastname_field.getText());
+                    preparedStatement.setString(4, client_update_phone_field.getText());
+                    preparedStatement.setString(5, client_update_address_field.getText());
+                    preparedStatement.setString(6, client_update_id_field.getText());
+                    preparedStatement.executeUpdate();
+                    cleanAndDisableClientUpdateFields();
+                    updateClientsTable();
+                    JOptionPane.showMessageDialog(null, "Client was updated successful.");
+                }
+                catch (SQLException exc)
+                {
+                    exc.printStackTrace();
+                    JOptionPane.showMessageDialog(null, "Record where phone = " + client_insert_phone.getText() + " exactly exist!");
+                }
+            }
+        });
+
+        client_update_delete_button.setOnMouseClicked(event -> {
+            if (JOptionPane.showInputDialog("You are trying to remove the client from the database. To confirm, enter his id").equals(client_update_id_field.getText()))
+            {
+                try {
+                    PreparedStatement preparedStatement = ConnectionToDB.getConnection().prepareStatement(
+                            "DELETE FROM clients WHERE id = ?");
+                    preparedStatement.setString(1, client_update_id_field.getText());
+                    preparedStatement.executeUpdate();
+                    updateClientsTable();
+                    JOptionPane.showMessageDialog(null, "Record where id = " + client_update_id_field.getText() + " was deleted successfully!");
+                    cleanAndDisableClientUpdateFields();
+                }
+                catch (SQLException e)
+                {
+                    //e.printStackTrace();
+                    JOptionPane.showMessageDialog(null, "Record where id = " + client_update_id_field.getText() + " cannot be deleted!");
+                }
             }
         });
 
@@ -236,7 +366,8 @@ public class AdminWindowController extends Controller {
 
         tickets.setOnSelectionChanged(event -> {
             try {
-                ResultSet resultSet = ConnectionToDB.getStatement().executeQuery("select id, client_id, festival_id from tickets");
+                ResultSet resultSet = ConnectionToDB.getStatement().executeQuery(
+                        "select id, client_id, festival_id from tickets");
                 ObservableList<Ticket> ticketsList = FXCollections.observableArrayList();
                 while (resultSet.next()) {
                     ticketsList.add(new Ticket(
@@ -308,4 +439,49 @@ public class AdminWindowController extends Controller {
             openNewScene("LogInWindow.fxml");
         });
     }
+
+    private void cleanAndDisableClientUpdateFields()
+    {
+        client_update_fields.setDisable(true);
+        client_update_update_button.setDisable(true);
+        client_update_delete_button.setDisable(true);
+        client_update_id_field.setText("");
+        client_update_name_field.setText("");
+        client_update_surname_field.setText("");
+        client_update_lastname_field.setText("");
+        client_update_phone_field.setText("");
+        client_update_address_field.setText("");
+        client_update_fields.setDisable(true);
+    }
+
+    private void updateClientsTable() {
+        try {
+            ResultSet resultSet = ConnectionToDB.getStatement().executeQuery(
+                    "select id, name, surname, lastname, phone, address from clients");
+            Client.getClientsList().clear();
+            while (resultSet.next()) {
+                Client.addClient(new Client(
+                        resultSet.getInt("id"),
+                        resultSet.getString("name"),
+                        resultSet.getString("surname"),
+                        resultSet.getString("lastname"),
+                        resultSet.getString("phone"),
+                        resultSet.getString("address")));
+            }
+            ObservableList<Client> clients = FXCollections.observableArrayList(Client.getClientsList());
+            client_id.setCellValueFactory(new PropertyValueFactory<>("id"));
+            client_name.setCellValueFactory(new PropertyValueFactory<>("name"));
+            client_surname.setCellValueFactory(new PropertyValueFactory<>("surname"));
+            client_lastname.setCellValueFactory(new PropertyValueFactory<>("lastname"));
+            client_phone.setCellValueFactory(new PropertyValueFactory<>("phone"));
+            client_address.setCellValueFactory(new PropertyValueFactory<>("address"));
+            clientsTable.setItems(clients);
+        }
+        catch (SQLException e)
+        {
+            e.printStackTrace();
+            JOptionPane.showMessageDialog(null, "Can't execute query to DB!");
+        }
+    }
 }
+
